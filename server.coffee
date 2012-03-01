@@ -11,6 +11,10 @@ app.use express.errorHandler { showStacktrace: true, dumpExceptions: true }
 io.sockets.on 'connection', (socket) ->
 	socket.on 'msg', () ->
     console.log 'Got the message over here'
-  socket.emit 'pomodoro_start'
+
+  socket.on 'pomodoro_done', () ->
+    console.log 'pomodoro is done'
+
+  socket.emit 'pomodoro_start', 25*60
 
 app.listen 9112

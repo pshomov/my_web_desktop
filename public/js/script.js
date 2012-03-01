@@ -10,11 +10,13 @@ $(function(){
     var socket = io.connect('http://localhost');
     var seconds = 0;
     var period = 25*60;
-    socket.on('pomodoro_start', function(){
+    socket.on('pomodoro_start', function(new_period){
+        period = new_period;
         seconds = 0;
         var interval = setInterval(function(){
             seconds++;
             if (seconds > period) {
+                socket.emit('pomodoro_done')
                 clearInterval(interval);
                 return;
             }
