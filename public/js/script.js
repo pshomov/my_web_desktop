@@ -3,6 +3,10 @@
 */
 
 
+function alarm() {
+    $('body').animate({backgroundColor:$.Color("red")}, 700, 'swing');
+    $('body').animate({backgroundColor:$.Color("white")}, 700, 'swing');
+}
 $(function(){
     _.mixin(_.string.exports());
     console.log = function(msg){$('p#con').append(msg);};
@@ -16,8 +20,11 @@ $(function(){
         var interval = setInterval(function(){
             seconds++;
             if (seconds > period) {
-                socket.emit('pomodoro_done')
+                socket.emit('pomodoro_done');
                 clearInterval(interval);
+                alarm();
+                alarm();
+                alarm();
                 return;
             }
             printTime(seconds);
