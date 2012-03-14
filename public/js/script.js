@@ -7,30 +7,37 @@ function alarm() {
     $('body').animate({backgroundColor:$.Color("red")}, 700, 'swing');
     $('body').animate({backgroundColor:$.Color("white")}, 700, 'swing');
 }
+function pomodoro_done(socket, interval) {
+    socket.emit('pomodoro_done');
+    clearInterval(interval);
+    alarm();
+    alarm();
+    alarm();
+}
 $(function(){
     _.mixin(_.string.exports());
+    var settings = {};
+    var interval;
     console.log = function(msg){$('p#con').append(msg);};
-    console.log("got it?");
     var socket = io.connect('http://localhost');
-    var seconds = 0;
-    var period = 25*60;
-    socket.on('pomodoro_start', function(new_period){
-        period = new_period;
-        seconds = 0;
-        var interval = setInterval(function(){
-            seconds++;
-            if (seconds > period) {
-                socket.emit('pomodoro_done');
-                clearInterval(interval);
-                alarm();
-                alarm();
-                alarm();
+    socket.on('pomodoro_start', function() {
+        var start = Date.now();
+        interval = setInterval(function () {
+
+            var elapsed_time = Date.now() - start;
+            if (elapsed_time > settings.pomodoro) {
+                pomodoro_done(socket, interval);
                 return;
             }
-            printTime(seconds);
+            printTime(Math.floor(elapsed_time/1000));
         }, 1000);
     });
-    socket.emit('msg');
+    socket.on('pomodoro_stop', function(){
+        pomodoro_done(socket, interval);
+    });
+    socket.on('settings', function(msg){
+        settings = msg;
+    })
 });
 
 function printTime(seconds){
