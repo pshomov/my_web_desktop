@@ -1,0 +1,12 @@
+{
+  "name": "my_web",
+  "version": "0.0.0",
+  "dependencies": {
+    "express": "~3.4.4",
+    "socket.io": "~0.9.16"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=0.8.0"
+  }
+}
