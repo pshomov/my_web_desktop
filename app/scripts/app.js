@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myWebDesktopApp', [])
+angular.module('myWebDesktopApp', ['ngRoute','ngAnimate'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {

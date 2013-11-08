@@ -6,6 +6,10 @@ body {
     color: #333;
 }
 
+.top {
+    background-color: red;
+    height: 20px;
+}
 .hero-unit {
     margin: 50px auto 0 auto;
     width: 300px;
@@ -22,3 +26,17 @@ body {
     line-height: 1;
     letter-spacing: -1px;
 }
+
+.slide.ng-enter, .slide.ng-leave {
+  -webkit-transition:0.5s linear all;
+  transition:0.5s linear all;
+}
+ 
+.slide.ng-enter {     
+    opacity: 0; 
+}        /* starting animations for enter */
+.slide.ng-enter-active { 
+    opacity: 1;
+} /* terminal animations for enter */
+.slide.ng-leave { }        /* starting animations for leave */
+.slide.ng-leave-active { } /* terminal animations for leave */
