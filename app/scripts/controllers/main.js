@@ -6,7 +6,8 @@ angular.module('myWebDesktopApp')
         $scope.items = [];
         socket.on('news', function(data) {
         	$scope.$apply(function(){
-        		$scope.items.push(data);
+        		console.log(data);
+        		$scope.items.unshift(data);
         	})
         });
     });
