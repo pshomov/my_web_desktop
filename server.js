@@ -26,6 +26,7 @@ io.sockets.on('connection', function(socket) {
             if (error) {
                 console.log(error);
             } else {
+                data.reverse();
                 _(data).each(function(tweet) {
                     socket.emit('news', {
                         tweet: tweet
