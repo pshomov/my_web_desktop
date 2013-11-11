@@ -4,7 +4,8 @@
 	<div class="grid-25">a</div>
 	<div class="grid-25">
 		<div class="background : green;">
-			<div ng-repeat="item in items" class="slide">@{{item.tweet.user.screen_name}}: {{item.tweet.text}}</div>
+			<div ng-repeat="item in items" class="slide">
+				<span><img src="{{item.tweet.user.profile_image_url}}"></span>@{{item.tweet.user.screen_name}}: {{item.tweet.text}}</div>
 		</div>
 	</div>
 </div>

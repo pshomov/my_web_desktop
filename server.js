@@ -9,6 +9,7 @@ var twit = require('./twitter_api_keys');
 
 
 app.use(express.static(__dirname + '/app'));
+app.use(express.static(__dirname + '/.tmp'));
 
 server.listen(3001);
 

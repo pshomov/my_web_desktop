@@ -28,6 +28,16 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
     yeoman: yeomanConfig,
+    less: {
+      all : {
+        options: {
+          paths: ["<%= yeoman.app %>/styles"]
+        },
+        files: {
+          ".tmp/styles/main.css": ["<%= yeoman.app %>/styles/main.less"]
+        }
+      }
+    },
     watch: {
       coffee: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
@@ -38,8 +48,8 @@ module.exports = function (grunt) {
         tasks: ['coffee:test']
       },
       styles: {
-        files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
-        tasks: ['copy:styles', 'autoprefixer']
+        files: ['<%= yeoman.app %>/styles/{,*/}*.less'],
+        tasks: ['less', 'autoprefixer']
       },
       livereload: {
         options: {
