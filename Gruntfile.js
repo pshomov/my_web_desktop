@@ -49,7 +49,7 @@ module.exports = function (grunt) {
       },
       styles: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.less'],
-        tasks: ['less', 'autoprefixer']
+        tasks: ['less']
       },
       livereload: {
         options: {
