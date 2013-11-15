@@ -1,7 +1,8 @@
 <div class="grid-container top">
     <div class="grid-25">a</div>
-    <div class="grid-25">a</div>
-    <div class="grid-25">a</div>
+    <div class="grid-50">
+        <div class="clock">{{now | date : 'HH'}}<span class="separator">:</span>{{now | date : 'mm'}}</div>
+    </div>
     <div class="grid-25">
         <div>
             <div ng-repeat="item in items" class="slide tweet">

@@ -1,7 +1,7 @@
 var express = require('express'),
     app = express(),
     server = require('http').createServer(app),
-    io = require('socket.io').listen(server);
+    io = require('socket.io').listen(server, { log: false });
 var _ = require('underscore');
 var twitterAPI = require('node-twitter-api');
 
@@ -37,15 +37,18 @@ io.sockets.on('connection', function(socket) {
                 if (error) {
                     console.log(error);
                 } else {
+                    console.log('getting timeline data');
                     data.reverse();
+                    data.slice(5);
                     tweets_cache = data;
-
+                    send_tweets(tweets_cache);                     
                 }
             }
         );
-    else send_tweets(tweets_cache);
+    else 
+        send_tweets(tweets_cache);
 
-    twitter.getStream('user', {},
+    var tw = twitter.getStream('user', {},
         twit.access_token_key,
         twit.access_token_secret,
         function(error, data, response) {
@@ -54,7 +57,9 @@ io.sockets.on('connection', function(socket) {
                 console.log('response is: ' + response);
             } else {
                 if (data.text !== undefined) {
-                    tweets_cache.unshift(data);
+                    console.log('getting stream data');
+                    tweets_cache.push(data);
+                    tweets_cache.slice(0,-5);
                     socket.emit('news', {
                         tweet: data
                     });
@@ -65,5 +70,9 @@ io.sockets.on('connection', function(socket) {
             console.log('End of stream');
         }
     );
+
+    socket.on('disconnect', function () {
+        tw.socket.destroy();
+    });    
 
 });

@@ -8,7 +8,32 @@ body {
     color: #333;
 }
 
-.top {
+@keyframes slidein { 
+      0% 60% {
+        opacity: 1;
+      }
+      80% {
+        opacity: 0;        
+      }
+      100% {
+        opacity: 1;
+      }
+}
+
+.clock {
+    text-align: center;
+    margin: auto;
+    .separator {
+        animation-duration: 4s;
+        animation-name: slidein;
+        animation-iteration-count: infinite;
+        animation-direction: normal;      
+        animation-timing-function: ease-in-out;
+    }
+    // font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-family: 'Droid Sans Mono', monospaced ; 
+    font-weight: 100;
+    font-size: 170px;
 }
 
 .tweet {
@@ -49,5 +74,9 @@ body {
 .slide.ng-enter-active { 
     opacity: 1;
 } /* terminal animations for enter */
-.slide.ng-leave { }        /* starting animations for leave */
-.slide.ng-leave-active { } /* terminal animations for leave */
+.slide.ng-leave { 
+    opacity: 1;
+}        /* starting animations for leave */
+.slide.ng-leave-active { 
+    opacity: 0;    
+} /* terminal animations for leave */
