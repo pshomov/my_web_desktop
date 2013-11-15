@@ -8,7 +8,7 @@ body {
     color: #333;
 }
 
-@keyframes slidein { 
+@keyframes pulse { 
       0% 60% {
         opacity: 1;
       }
@@ -20,12 +20,21 @@ body {
       }
 }
 
+@keyframes slidein { 
+      0% {
+        margin-left: 100px;
+      }
+      100% {
+        margin-left: 0;
+      }
+}
+
 .clock {
     text-align: center;
     margin: auto;
     .separator {
         animation-duration: 4s;
-        animation-name: slidein;
+        animation-name: pulse;
         animation-iteration-count: infinite;
         animation-direction: normal;      
         animation-timing-function: ease-in-out;
@@ -64,8 +73,9 @@ body {
 
 
 .slide.ng-enter, .slide.ng-leave {
-  -webkit-transition:0.5s linear all;
-  transition:0.5s linear all;
+        animation-duration: 1s;
+        animation-name: slidein;
+  // transition:0.5s linear all;
 }
  
 .slide.ng-enter {     
