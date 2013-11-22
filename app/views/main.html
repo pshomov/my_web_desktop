@@ -1,6 +1,6 @@
 <div class="grid-container top">
     <div class="grid-25">
-            <div ng-repeat="item in cpu">
+            <div ng-repeat="item in cpu track by $index">
                 <meter max="100" value="{{item}}"></meter>            
             </div>        
     </div>

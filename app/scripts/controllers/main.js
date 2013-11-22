@@ -9,20 +9,7 @@ angular.module('myWebDesktopApp')
     .controller('MainCtrl', function($scope, $interval, $resource) {
         var retry;
 
-        function connect() {
-            var socket = io.connect('http://localhost:3001');
-            if (socket.socket.connected) {
-                if (retry) {
-                    $interval.cancel(retry);
-                    retry = undefined;
-                }
-            } else {
-                if (!retry) {
-                    retry = $interval(connect, 1000);
-                }
-                return;
-            }
-
+        function bind_events(socket, $scope){
             $scope.items = [];
             $scope.rss = [];
             $scope.cpu = [];
@@ -43,9 +30,28 @@ angular.module('myWebDesktopApp')
                     $scope.rss.unshift(data);
                 })
             });
+
+        }
+
+        function connect() {
+            var socket = io.connect('http://localhost:3001');
+            if (socket.socket.connected) {
+                if (retry) {
+                    $interval.cancel(retry);
+                    retry = undefined;
+                }
+            } else {
+                if (!retry) {
+                    retry = $interval(connect, 2000);
+                }
+                return;
+            }
+
+            bind_events(socket, $scope);
+
             socket.on('disconnect', function() {
                 if (!retry) 
-                    retry = $interval(connect, 1000);
+                    retry = $interval(connect, 2000);
             });
         }
         connect();
