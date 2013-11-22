@@ -5,7 +5,9 @@
     "socket.io": "~0.9.16",
     "express": "~3.4.4",
     "node-twitter-api": "~1.1.1",
-    "underscore": "~1.5.2"
+    "underscore": "~1.5.2",
+    "psutil": "git://github.com/wydler/node-psutil.git",
+    "feedsub": "~0.2.7"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
