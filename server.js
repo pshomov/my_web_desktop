@@ -1,7 +1,9 @@
 var express = require('express'),
     app = express(),
     server = require('http').createServer(app),
-    io = require('socket.io').listen(server, { log: false });
+    io = require('socket.io').listen(server, {
+        log: false
+    });
 var _ = require('underscore');
 var twitterAPI = require('node-twitter-api');
 var ps = require('psutil').PSUtil;
@@ -15,41 +17,57 @@ app.use(express.static(__dirname + '/.tmp'));
 
 server.listen(3001);
 
-var tweets_cache;
 io.sockets.on('connection', function(socket) {
-    var twitter = new twitterAPI({
+
+    function send_seed_items(data, event) {
+        _(data).each(function(tweet) {
+            socket.emit(event, tweet);
+        })
+    }
+
+    send_seed_items(twitter_cache.cache.items, 'news');
+    send_seed_items(d.cache.items, 'rss');
+
+});
+
+setInterval(function() {
+    new ps().cpu_percent(0.2, true, function(err, data) {
+        if (!err)
+            io.sockets.emit('cpu_percent', data);
+    });
+}, 2000);
+
+function send_tweets(data, event) {
+    if (!(data instanceof Array)) data = [data];
+    _(data).each(function(tweet) {
+        io.sockets.emit(event, tweet);
+    })
+}
+
+var twitter_cache = function () {
+   var tweets_cache = {items : []};
+
+   var twitter = new twitterAPI({
         consumerKey: twit.consumer_key,
         consumerSecret: twit.consumer_secret,
         callback: 'http://yoururl.tld/something'
     });
-
-    function send_tweets(data) {
-        _(data).each(function(tweet) {
-            socket.emit('news', {
-                tweet: tweet
-            });
-        })
-    }
-
-    if (tweets_cache == undefined)
-        twitter.getTimeline("home", {},
-            twit.access_token_key,
-            twit.access_token_secret,
-            function(error, data, response) {
-                if (error) {
-                    console.log(error);
-                } else {
-                    console.log('getting timeline data');
-                    data.reverse();
-                    data.slice(5);
-                    tweets_cache = data;
-                    send_tweets(tweets_cache);                     
-                }
+    twitter.getTimeline("home", {},
+        twit.access_token_key,
+        twit.access_token_secret,
+        function(error, data, response) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('getting timeline data: ');
+                // console.dir(data);
+                data.reverse();
+                data.slice(5);
+                tweets_cache.items = data;
+                send_tweets(tweets_cache.items, 'news');
             }
-        );
-    else 
-        send_tweets(tweets_cache);
-
+        }
+    );
     var tw = twitter.getStream('user', {},
         twit.access_token_key,
         twit.access_token_secret,
@@ -60,11 +78,9 @@ io.sockets.on('connection', function(socket) {
             } else {
                 if (data.text !== undefined) {
                     console.log('getting stream data');
-                    tweets_cache.push(data);
-                    tweets_cache.slice(0,-5);
-                    socket.emit('news', {
-                        tweet: data
-                    });
+                    tweets_cache.items.push(data);
+                    tweets_cache.items.slice(0, -5);
+                    send_tweets(data, 'news');
                 }
             }
         },
@@ -72,35 +88,36 @@ io.sockets.on('connection', function(socket) {
             console.log('End of stream');
         }
     );
-    tw.addListener('error', function (res) {
+    tw.addListener('error', function(res) {
         console.log('twitter stream');
         console.dir(res);
     });
 
+    return {
+        cache : tweets_cache
+    }
+}();
 
-    setInterval(function() {new ps().cpu_percent(0.2, true, function(err, data){
-        // console.log(data);
-        if (!err)
-            io.sockets.emit('cpu_percent', data);
-    });}, 2000);
+var d = function (){
+    var rss_cache = { items : []};
 
     var reader = new FeedSub(twit.github_timeline_url, {
-        emitOnStart : true,
+        emitOnStart: true,
         interval: 1 // check feed every 10 minutes
     });
 
     reader.on('item', function(item) {
-        socket.emit('rss', item);
+        console.log('rss');
+        rss_cache.items.push(item);
+        send_tweets(item, 'rss');
     });
 
-    reader.on('error', function (err) {
+    reader.on('error', function(err) {
         console.log('Error reading the feed: ' + err);
-        // body...
     });
 
-    reader.start();    
-
-    socket.on('disconnect', function () {
-        tw.socket.destroy();
-    });
-});
+    reader.start();
+    return {
+        cache : rss_cache
+    }
+}();

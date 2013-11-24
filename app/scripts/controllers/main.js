@@ -6,13 +6,24 @@ angular.module('myWebDesktopApp')
             $sceDelegateProvider.resourceUrlWhitelist(['self', 'https://cloud.feedly.com/**', 'http://cloud.feedly.com/**']);
         }
     ])
-    .controller('MainCtrl', function($scope, $interval, $resource) {
-        var retry;
-
-        function bind_events(socket, $scope){
+    .controller('MainCtrl', function($scope, $interval, $resource, $timeout) {
+        function init(){
             $scope.items = [];
             $scope.rss = [];
             $scope.cpu = [];
+        }
+
+        function bind_events(socket, $scope){
+            socket.on('connect', function(){
+                console.log('connected');
+                init();
+            });
+            socket.on('reconnect', function(){
+                console.log('reconnected');
+            });
+            socket.on('reconnect_failed', function(){
+                console.log('reconnect FAILED!!!');
+            });
             socket.on('news', function(data) {
                 $scope.$apply(function() {
                     $scope.items.unshift(data);
@@ -28,33 +39,16 @@ angular.module('myWebDesktopApp')
                 $scope.$apply(function() {
                     data.media = data['media:thumbnail'];
                     $scope.rss.unshift(data);
+                    $scope.rss.splice(5);
                 })
             });
-
-        }
-
-        function connect() {
-            var socket = io.connect('http://localhost:3001');
-            if (socket.socket.connected) {
-                if (retry) {
-                    $interval.cancel(retry);
-                    retry = undefined;
-                }
-            } else {
-                if (!retry) {
-                    retry = $interval(connect, 2000);
-                }
-                return;
-            }
-
-            bind_events(socket, $scope);
-
             socket.on('disconnect', function() {
-                if (!retry) 
-                    retry = $interval(connect, 2000);
+                console.log('disconnected');
             });
         }
-        connect();
+
+        var socket = io.connect('http://localhost:3001');
+        bind_events(socket, $scope);
 
         $interval(function() {
             $scope.now = new Date();
