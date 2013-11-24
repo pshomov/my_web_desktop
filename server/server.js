@@ -9,7 +9,7 @@ var twitterAPI = require('node-twitter-api');
 var ps = require('psutil').PSUtil;
 var FeedSub = require('feedsub');
 
-var twit = require('./twitter_api_keys');
+var twit = require('./../twitter_api_keys');
 
 
 app.use(express.static(__dirname + '/app'));
