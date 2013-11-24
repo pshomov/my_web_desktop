@@ -6,7 +6,7 @@ module.exports = function(client_api) {
 
     var reader = new FeedSub(twit.github_timeline_url, {
         emitOnStart: true,
-        interval: 1 // check feed every 10 minutes
+        interval: 1
     });
 
     reader.on('item', function(item) {
