@@ -47,7 +47,9 @@ angular.module('myWebDesktopApp')
             });
         }
 
-        var socket = io.connect('http://localhost:3001');
+        var socket = io.connect('http://localhost:3001', {
+            'max reconnection attempts' : Infinity
+        });
         bind_events(socket, $scope);
 
         $interval(function() {
