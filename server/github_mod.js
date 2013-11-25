@@ -11,7 +11,7 @@ module.exports = function(client_api) {
 
     reader.on('item', function(item) {
         rss_cache.items.push(item);
-        client_api.send_tweets(item, 'rss');
+        client_api.update(item, 'rss');
     });
 
     reader.on('error', function(err) {

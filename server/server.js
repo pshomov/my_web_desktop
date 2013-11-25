@@ -8,7 +8,7 @@ var _ = require('underscore');
 var ps = require('psutil').PSUtil;
 
 var update_clients = {
-    send_tweets : function (data, event) {
+    update : function (data, event) {
         if (!(data instanceof Array)) data = [data];
         _(data).each(function(tweet) {
             io.sockets.emit(event, tweet);

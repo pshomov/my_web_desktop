@@ -22,7 +22,7 @@ module.exports = function (client_api){
                  data.reverse();
                  data.slice(5);
                  tweets_cache.items = data;
-                 client_api.send_tweets(tweets_cache.items, 'news');
+                 client_api.update(tweets_cache.items, 'news');
              }
          }
      );
@@ -38,7 +38,7 @@ module.exports = function (client_api){
                      console.log('getting stream data');
                      tweets_cache.items.push(data);
                      tweets_cache.items.slice(0, -5);
-                     client_api.send_tweets(data, 'news');
+                     client_api.update(data, 'news');
                  }
              }
          },
