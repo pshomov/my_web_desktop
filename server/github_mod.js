@@ -15,7 +15,6 @@ module.exports = function(client_api) {
     });
 
     reader.on('error', function(err) {
-        console.log('Error reading the feed: ' + err);
     });
 
     reader.start();

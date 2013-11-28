@@ -18,7 +18,6 @@ module.exports = function (client_api){
                  console.log(error);
              } else {
                  console.log('getting timeline data: ');
-                 // console.dir(data);
                  data.reverse();
                  data.slice(5);
                  tweets_cache.items = data;
@@ -46,11 +45,6 @@ module.exports = function (client_api){
              console.log('End of stream');
          }
      );
-     tw.addListener('error', function(res) {
-         console.log('twitter stream');
-         console.dir(res);
-     });
-
     return {
         cache : tweets_cache,
         event : 'news'
