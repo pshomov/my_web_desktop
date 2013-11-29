@@ -9,6 +9,8 @@ angular.module('myWebDesktopApp')
     .controller('MainCtrl', function($scope, $interval, $resource, $timeout) {
         function init(){
             $scope.items = [];
+            $scope.hackernews = [];
+            $scope.visir = [];
             $scope.rss = [];
             $scope.cpu = [];
         }
@@ -40,6 +42,18 @@ angular.module('myWebDesktopApp')
                     data.media = data['media:thumbnail'];
                     $scope.rss.unshift(data);
                     $scope.rss.splice(5);
+                })
+            });
+            socket.on('hackernews', function(data) {
+                $scope.$apply(function() {
+                    $scope.hackernews.unshift(data);
+                    $scope.hackernews.splice(5);
+                })
+            });
+            socket.on('visir', function(data) {
+                $scope.$apply(function() {
+                    $scope.visir.unshift(data);
+                    $scope.visir.splice(5);
                 })
             });
             socket.on('disconnect', function() {

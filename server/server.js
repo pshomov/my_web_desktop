@@ -21,7 +21,12 @@ app.use(express.static(__dirname + '/../app'));
 app.use(express.static(__dirname + '/../.tmp'));
 
 server.listen(3001);
-var modules = [require('./twitter_mod')(update_clients), require('./github_mod')(update_clients)];
+var modules = [
+    require('./twitter_mod')(update_clients), 
+    require('./hackernews_mod')(update_clients), 
+    require('./visir_mod')(update_clients), 
+    require('./github_mod')(update_clients)
+    ];
 
 io.sockets.on('connection', function(socket) {
 
