@@ -17,18 +17,6 @@ body {
     box-sizing: border-box;
 }
 
-@keyframes pulse { 
-      0% 60% {
-        opacity: 1;
-      }
-      80% {
-        opacity: 0;        
-      }
-      100% {
-        opacity: 1;
-      }
-}
-
 @keyframes slidein { 
       0% {
         margin-top: 20px;
@@ -45,11 +33,6 @@ body {
 .clock {
     margin: 0 auto;
     .separator {
-        animation-duration: 4s;
-        animation-name: pulse;
-        animation-iteration-count: infinite;
-        animation-direction: normal;      
-        animation-timing-function: ease-in-out;
     }
     // font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
     font-family: 'Droid Sans Mono', monospaced ; 
@@ -89,7 +72,6 @@ body {
 .slide.ng-enter, .slide.ng-leave {
         animation-duration: 1s;
         animation-name: slidein;
-  // transition:0.5s linear all;
 }
  
 .slide.ng-enter {     
