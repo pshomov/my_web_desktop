@@ -9,7 +9,8 @@
     "feedsub": "~0.2.7",
     "feedparser": "~0.16.3",
     "request": "~2.27.0",
-    "twit": "~1.1.12"
+    "twit": "~1.1.12",
+    "bower": "~1.2.8"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
