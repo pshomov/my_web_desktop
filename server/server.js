@@ -5,7 +5,6 @@ var express = require('express'),
         log: false
     });
 var _ = require('underscore');
-var ps = require('psutil').PSUtil;
 
 var update_clients = {
     update : function (data, event) {
@@ -42,9 +41,9 @@ io.sockets.on('connection', function(socket) {
 
 });
 
-setInterval(function() {
-    new ps().cpu_percent(0.2, true, function(err, data) {
-        if (!err)
-            io.sockets.emit('cpu_percent', data);
-    });
-}, 2000);
+// setInterval(function() {
+//     new ps().cpu_percent(0.2, true, function(err, data) {
+//         if (!err)
+//             io.sockets.emit('cpu_percent', data);
+//     });
+// }, 2000);

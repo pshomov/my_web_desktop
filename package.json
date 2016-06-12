@@ -5,7 +5,6 @@
     "socket.io": "~0.9.16",
     "express": "~3.4.4",
     "underscore": "~1.5.2",
-    "psutil": "git://github.com/wydler/node-psutil.git",
     "feedsub": "~0.2.7",
     "feedparser": "~0.16.3",
     "request": "~2.27.0",
