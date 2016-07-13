@@ -3,10 +3,10 @@ var twit = require('./../twitter_api_keys');
 var cache = require('./cache');
 var EVENT = 'reddit.compsci';
 
-module.exports = function(client_api) {
+module.exports = function(topic, client_api) {
     var rss_cache = cache(5);
 
-    var reader = new FeedSub('http://www.reddit.com/r/compsci/.rss', {
+    var reader = new FeedSub(`http://www.reddit.com/r/${topic}/.rss`, {
         emitOnStart: true,
         interval: 1
     });
