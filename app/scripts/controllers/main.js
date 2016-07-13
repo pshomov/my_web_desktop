@@ -26,7 +26,7 @@ angular.module('myWebDesktopApp')
             socket.on('reconnect_failed', function(){
                 console.log('reconnect FAILED!!!');
             });
-            socket.on('news', function(data) {
+            socket.on('twitter', function(data) {
                 $scope.$apply(function() {
                     $scope.items.unshift(data);
                     $scope.items.splice(5);
@@ -50,7 +50,7 @@ angular.module('myWebDesktopApp')
                     $scope.hackernews.splice(5);
                 })
             });
-            socket.on('visir', function(data) {
+            socket.on('reddit.compsci', function(data) {
                 $scope.$apply(function() {
                     $scope.visir.unshift(data);
                     $scope.visir.splice(5);

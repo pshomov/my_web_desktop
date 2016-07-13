@@ -19,7 +19,12 @@
     <link rel="stylesheet" href="bower_components/unsemantic/assets/stylesheets/unsemantic-grid-desktop.css">
     <!-- endbuild -->
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono:400normal' rel='stylesheet' type='text/css'>    
-    <script src="//localhost:35729/livereload.js"></script>    
+    <script src="//localhost:35729/livereload.js"></script>
+    <script>
+        function isPrimary(primary) {
+            return primary ? 'primary screen' : 'secondary screen';
+        }
+    </script>    
 </head>
 
 <body ng-app="myWebDesktopApp">

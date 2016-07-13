@@ -1,9 +1,12 @@
 var twitterAPI = require('twit');
 var twit = require('./../twitter_api_keys');
+var debug = require('debug')('desktop');
+var cache = require('./cache');
+var _ = require('underscore');
 
 
 module.exports = function (client_api){
-    var tweets_cache = {items : []};
+    var tweets_cache = cache(5);
 
 
     var twitter = new twitterAPI({
@@ -18,20 +21,19 @@ module.exports = function (client_api){
              if (error) {
                  console.log(error);
              } else {
-                 console.log('getting timeline data: ');
                  data.reverse();
-                 data.slice(5);
-                 tweets_cache.items = data;
-                 client_api.update(tweets_cache.items, 'news');
+                 _(data).each(i => tweets_cache.addItem(i));
+                 debug(`getting timeline data: ${JSON.stringify(tweets_cache.getItems())}`);
+                 client_api.update(tweets_cache.getItems(), 'twitter');
              }
          }
      );
 
      var T = twitter.stream('user');
      T.on('tweet', function(data){
-         tweets_cache.items.push(data);
-         tweets_cache.items.slice(0, -5);
-         client_api.update(data, 'news');
+         tweets_cache.addItem(data);
+         debug(`streaming tweet: ${data}`);
+         client_api.update(data, 'twitter');
      });
      T.on('disconnect', function(disconnectMessage){console.log("Disconnected: "+disconnectMessage)});
      T.on('connect', function(request){console.log("Connect: "+request)});
@@ -42,6 +44,6 @@ module.exports = function (client_api){
 
     return {
         cache : tweets_cache,
-        event : 'news'
+        event : 'twitter'
     };
 };

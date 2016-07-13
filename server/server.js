@@ -1,5 +1,6 @@
 var express = require('express'),
     app = express(),
+    debug = require('debug')('desktop');
     server = require('http').createServer(app),
     io = require('socket.io').listen(server, {
         log: false
@@ -10,6 +11,7 @@ var update_clients = {
     update : function (data, event) {
         if (!(data instanceof Array)) data = [data];
         _(data).each(function(tweet) {
+            debug(`sending ${JSON.stringify(tweet)} for ${event}`)
             io.sockets.emit(event, tweet);
         });
     }
@@ -23,8 +25,8 @@ server.listen(3001);
 var modules = [
     require('./twitter_mod1')(update_clients), 
     require('./hackernews_mod')(update_clients), 
-    require('./visir_mod')(update_clients), 
-    require('./github_mod')(update_clients)
+    require('./reddit_mod')(update_clients), 
+    // require('./github_mod')(update_clients)
     ];
 
 io.sockets.on('connection', function(socket) {
@@ -36,7 +38,7 @@ io.sockets.on('connection', function(socket) {
     }
 
     _(modules).each(function(mod){
-        send_seed_items(mod.cache.items, mod.event);
+        send_seed_items(mod.cache.getItems(), mod.event);
     });
 
 });

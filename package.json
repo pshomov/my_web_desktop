@@ -2,14 +2,15 @@
   "name": "my-web-desktop",
   "version": "0.5.0",
   "dependencies": {
-    "socket.io": "~0.9.16",
+    "bower": "~1.2.8",
+    "debug": "^2.2.0",
     "express": "~3.4.4",
-    "underscore": "~1.5.2",
-    "feedsub": "~0.2.7",
     "feedparser": "~0.16.3",
+    "feedsub": "~0.2.7",
     "request": "~2.27.0",
+    "socket.io": "~0.9.16",
     "twit": "~1.1.12",
-    "bower": "~1.2.8"
+    "underscore": "~1.5.2"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

@@ -1,11 +1,10 @@
 var FeedSub = require('feedsub');
 var twit = require('./../twitter_api_keys');
-
+var cache = require('./cache');
+var EVENT = 'reddit.compsci';
 
 module.exports = function(client_api) {
-    var rss_cache = {
-        items: []
-    };
+    var rss_cache = cache(5);
 
     var reader = new FeedSub('http://www.reddit.com/r/compsci/.rss', {
         emitOnStart: true,
@@ -13,8 +12,8 @@ module.exports = function(client_api) {
     });
 
     reader.on('item', function(item) {
-        rss_cache.items.push(item);
-        client_api.update(item, 'visir');
+        rss_cache.addItem(item);
+        client_api.update(item, EVENT);
     });
 
     reader.on('error', function(err) {
@@ -24,6 +23,6 @@ module.exports = function(client_api) {
     reader.start();
     return {
         cache: rss_cache,
-        event: 'visir'
+        event: EVENT
     }
 };

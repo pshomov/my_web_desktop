@@ -1,8 +1,9 @@
 var FeedSub = require('feedsub');
 var twit = require('./../twitter_api_keys');
+var cache = require('./cache');
 
 module.exports = function(client_api) {
-    var rss_cache = { items : []};
+    var rss_cache = cache(5);
 
     var reader = new FeedSub('https://news.ycombinator.com/rss', {
         emitOnStart: true,
@@ -10,7 +11,7 @@ module.exports = function(client_api) {
     });
 
     reader.on('item', function(item) {
-        rss_cache.items.push(item);
+        rss_cache.addItem(item);
         client_api.update(item, 'hackernews');
     });
 
