@@ -10,6 +10,7 @@ angular.module('myWebDesktopApp')
         function init(){
             $scope.items = [];
             $scope.hackernews = [];
+            $scope.github = [];
             $scope.visir = [];
             $scope.rss = [];
             $scope.cpu = [];
@@ -54,6 +55,14 @@ angular.module('myWebDesktopApp')
                 $scope.$apply(function() {
                     $scope.visir.unshift(data);
                     $scope.visir.splice(5);
+                })
+            });
+            socket.on('github', function(data) {
+                $scope.$apply(function() {
+                    var item = data;
+                    if (item.mediathumbnail && item.mediathumbnail.url) item.mediathumbnail.url = item.mediathumbnail.url.replace(/s=30$/, 's=88');
+                    $scope.github.unshift(data);
+                    $scope.github.splice(5);
                 })
             });
             socket.on('disconnect', function() {
