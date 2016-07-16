@@ -1,19 +1,19 @@
 <div class="grid-container top">
     <div class="grid-25 row">
-            <h4>CPU</h4>
-            <div ng-repeat="item in cpu track by $index">
-                <meter max="100" value="{{item}}"></meter>            
-            </div>        
-    </div>
-    <div class="grid-50 clock-container row">
-        <div class="clock">{{now | date : 'HH'}}<span class="separator">:</span>{{now | date : 'mm'}}</div>
-    </div>
-    <div class="grid-25 row">
             <h4>Twitter</h4>
             <div ng-repeat="item in items" class="slide tweet">
                     <img src="{{item.user.profile_image_url}}">
                 <div><span class="content">{{item.text}}</span></div>
             </div>
+    </div>
+    <div class="grid-50 clock-container row">
+        <div class="clock">{{now | date : 'HH'}}<span class="separator">:</span>{{now | date : 'mm'}}</div>
+    </div>
+    <div class="grid-25 row">
+            <h4>Reddit</h4>
+            <div ng-repeat="item in visir" class="slide tweet">
+                <div><span class="content">{{item.title}}</span></div>
+            </div>        
     </div>
     <div class="grid-25 row">
             <h4>GitHub</h4>
@@ -22,15 +22,11 @@
                 <div><span class="content">{{item.title}}</span></div>
             </div>        
     </div>
+    <div class="grid-50 row">
+    </div>
     <div class="grid-25 row">
             <h4>HackerNews</h4>
             <div ng-repeat="item in hackernews" class="slide tweet">
-                <div><span class="content">{{item.title}}</span></div>
-            </div>        
-    </div>
-    <div class="grid-25 row">
-            <h4>Reddit</h4>
-            <div ng-repeat="item in visir" class="slide tweet">
                 <div><span class="content">{{item.title}}</span></div>
             </div>        
     </div>
