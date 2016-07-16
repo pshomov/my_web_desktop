@@ -31,10 +31,10 @@ module.exports = function (grunt) {
     less: {
       all : {
         options: {
-          paths: ["<%= yeoman.app %>/styles"]
+          paths: ['<%= yeoman.app %>/styles']
         },
         files: {
-          ".tmp/styles/main.css": ["<%= yeoman.app %>/styles/main.less"]
+          '.tmp/styles/main.css': ['<%= yeoman.app %>/styles/main.less']
         }
       }
     },
