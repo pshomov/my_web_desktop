@@ -22,7 +22,8 @@
     <script src="//localhost:35729/livereload.js"></script>
     <script>
         function isPrimary(primary) {
-            return primary ? 'primary screen' : 'secondary screen';
+            var cssClass = primary ? 'primary' : 'secondary';
+            document.getElementsByTagName('body')[0].className += (' ' + cssClass);
         }
     </script>    
 </head>

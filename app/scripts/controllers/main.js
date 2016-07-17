@@ -9,6 +9,7 @@ angular.module('myWebDesktopApp')
     .controller('MainCtrl', function ($scope, $interval) {
         function init() {
             $scope.items = [];
+            $scope.theringer = [];
             $scope.hackernews = [];
             $scope.github = [];
             $scope.visir = [];
@@ -55,6 +56,12 @@ angular.module('myWebDesktopApp')
                 $scope.$apply(function () {
                     $scope.visir.unshift(data);
                     $scope.visir.splice(5);
+                });
+            });
+            socket.on('theringer', function (data) {
+                $scope.$apply(function () {
+                    $scope.theringer.unshift(data);
+                    $scope.theringer.splice(5);
                 });
             });
             socket.on('github', function (data) {
