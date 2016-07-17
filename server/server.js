@@ -25,6 +25,7 @@ server.listen(3001);
 var modules = [
     require('./twitter_mod1')(update_clients), 
     require('./theringer_mod')(update_clients), 
+    require('./rss_mod')(update_clients, 'http://bleacherreport.com/articles/feed', 'bleachreport'), 
     require('./hackernews_mod')(update_clients), 
     require('./reddit_mod')('compsci',update_clients), 
     require('./github_mod')(update_clients)

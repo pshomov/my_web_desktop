@@ -10,6 +10,7 @@ angular.module('myWebDesktopApp')
         function init() {
             $scope.items = [];
             $scope.theringer = [];
+            $scope.bleachreport = [];
             $scope.hackernews = [];
             $scope.github = [];
             $scope.visir = [];
@@ -62,6 +63,12 @@ angular.module('myWebDesktopApp')
                 $scope.$apply(function () {
                     $scope.theringer.unshift(data);
                     $scope.theringer.splice(5);
+                });
+            });
+            socket.on('bleachreport', function (data) {
+                $scope.$apply(function () {
+                    $scope.bleachreport.unshift(data);
+                    $scope.bleachreport.splice(5);
                 });
             });
             socket.on('github', function (data) {
