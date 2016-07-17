@@ -1,16 +1,17 @@
 var express = require('express'),
     app = express(),
     debug = require('debug')('desktop');
-    server = require('http').createServer(app),
-    io = require('socket.io').listen(server, {
-        log: false
-    });
+server = require('http').createServer(app),
+    rss = require('./rss_mod');
+io = require('socket.io').listen(server, {
+    log: false
+});
 var _ = require('underscore');
 
 var update_clients = {
-    update : function (data, event) {
+    update: function (data, event) {
         if (!(data instanceof Array)) data = [data];
-        _(data).each(function(tweet) {
+        _(data).each(function (tweet) {
             debug(`sending ${JSON.stringify(tweet)} for ${event}`)
             io.sockets.emit(event, tweet);
         });
@@ -22,24 +23,30 @@ app.use(express.static(__dirname + '/../app'));
 app.use(express.static(__dirname + '/../.tmp'));
 
 server.listen(3001);
-var modules = [
-    require('./twitter_mod1')(update_clients), 
-    require('./theringer_mod')(update_clients), 
-    require('./rss_mod')(update_clients, 'http://bleacherreport.com/articles/feed', 'bleachreport'), 
-    require('./hackernews_mod')(update_clients), 
-    require('./reddit_mod')('compsci',update_clients), 
-    require('./github_mod')(update_clients)
-    ];
+var twit = require('./../twitter_api_keys');
 
-io.sockets.on('connection', function(socket) {
+var modules = [
+    require('./twitter_mod1')(update_clients),
+    rss(update_clients, 'https://theringer.com/feed', 'theringer'),
+    rss(update_clients, 'http://bleacherreport.com/articles/feed', 'bleachreport'),
+    rss(update_clients, 'https://news.ycombinator.com/rss', 'hackernews'),
+    require('./reddit_mod')('compsci', update_clients),
+    rss(update_clients, twit.github_timeline_url, 'github', item => {
+        item.mediathumbnail = item['media:thumbnail'];
+        delete item['media:thumbnail'];
+        return item;
+    })
+];
+
+io.sockets.on('connection', function (socket) {
 
     function send_seed_items(data, event) {
-        _(data).each(function(tweet) {
+        _(data).each(function (tweet) {
             socket.emit(event, tweet);
         })
     }
 
-    _(modules).each(function(mod){
+    _(modules).each(function (mod) {
         send_seed_items(mod.cache.getItems(), mod.event);
     });
 
