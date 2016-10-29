@@ -7,7 +7,7 @@
             </div>
     </div>
     <div class="grid-50 clock-container row">
-        <div class="clock">{{now | date : 'HH'}}<span class="separator">:</span>{{now | date : 'mm'}}</div>
+        <div class="clock" ui-on-drop="onDrop($event,$data, 1)" drop-validate="onDrop(1,$data, 3)" on-drop-success="onDrop($event,$index,2)" >{{now | date : 'HH'}}<span class="separator">:</span>{{now | date : 'mm'}}</div>
     </div>
     <div class="grid-25 row">
             <h4>Reddit</h4>

@@ -88,7 +88,9 @@ angular.module('myWebDesktopApp')
             'max reconnection attempts': Infinity
         });
         bindEvents(socket, $scope);
-
+        $scope.onDrop = function($event, $data, l) {
+            debugger;
+        }
         $interval(function () {
             $scope.now = new Date();
         }, 1000);

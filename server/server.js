@@ -19,8 +19,46 @@ var update_clients = {
 }
 
 
-app.use(express.static(__dirname + '/../app'));
-// app.use(express.static(__dirname + '/../.tmp'));
+if (process.env.DEBUG){
+    debug('Starting in DEV mode');
+    var webpackDevServer = require('webpack-dev-server');
+    var webpack = require('webpack');
+    var config = require("../webpack.config.js");
+    config.entry.app.unshift("webpack-dev-server/client?http://localhost:8080/", "webpack/hot/dev-server");
+    config.plugins.push(new webpack.HotModuleReplacementPlugin());
+    var compiler = webpack(config);
+    var devServer = new webpackDevServer(compiler, {
+        hot: true,
+        contentBase: 'src/',
+        inline: true,
+        noInfo: true,
+        publicPath: "/app/",
+        stats: {
+            colors: true
+        }  
+    });
+    compiler.plugin('compile', function() {
+        debug('Bundling...');
+    });
+    compiler.plugin('done', function() {
+        debug('Bundled.');
+    });  
+    devServer.listen(8080);
+
+    var httpProxy = require('http-proxy');
+
+    var proxy = httpProxy.createProxyServer({});
+    app.all('/app/*', function (req, res) {
+        proxy.web(req, res, {
+            target: 'http://localhost:8080'
+        });
+    });
+    proxy.on('error', function(e) {
+        debug('Could not connect to proxy, please try again...');
+    });
+} else {
+    app.use('/app', express.static(__dirname + '/../dist'));
+}
 
 server.listen(3001);
 var twit = require('./../twitter_api_keys');

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myWebDesktopApp', ['ngRoute','ngAnimate', 'ngResource'])
+angular.module('myWebDesktopApp', ['ngRoute','ngAnimate', 'ngResource','ang-drag-drop'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {

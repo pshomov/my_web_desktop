@@ -1,0 +1,91 @@
+
+html,.container,.grid-container {
+    height: 100%;
+}
+body {
+    margin-top: 24px;
+    background-image: url("images/aug-16-chill-out-nocal-1920x1200.jpg");
+    background-size: contain;    
+    background-position:  center;
+    // background-image: url(../images/b.jpg);
+    width: 100%;
+    height: 100%;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #333;
+    position: relative;
+}
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+@keyframes slidein { 
+      0% {
+        margin-top: 20px;
+      }
+      100% {
+        margin-top: 0;
+      }
+}
+
+.clock-container
+{
+    text-align: center;    
+}
+.clock {
+    margin: 0 auto;
+    .separator {
+    }
+    // font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-family: 'Droid Sans Mono', monospaced ; 
+    font-weight: 100;
+    font-size: 170px;
+}
+.row {
+    height: 50%;
+}
+.tweet {
+    position: relative;
+    margin-bottom: 7px;
+    line-height: 140%;
+    font-family: Calibri, sans-serif;
+    font-size: 14px;    
+    .user {
+        background-color: lightlime;
+        padding-bottom: 1px;
+        margin-right: 2px;
+        text-decoration: underline;
+    }
+    img {
+        width: 44px;
+        height: 44px;
+        vertical-align: top;
+    }
+    div {
+        vertical-align: top;
+        display: inline-block;
+        // border: 1px solid black;
+        width: 270px;
+        height : 100%;
+    }
+}
+
+
+.slide.ng-enter, .slide.ng-leave {
+        animation-duration: 1s;
+        animation-name: slidein;
+}
+ 
+.slide.ng-enter {     
+    opacity: 0; 
+}        /* starting animations for enter */
+.slide.ng-enter-active { 
+    opacity: 1;
+} /* terminal animations for enter */
+.slide.ng-leave { 
+    opacity: 1;
+}        /* starting animations for leave */
+.slide.ng-leave-active { 
+    opacity: 0;    
+} /* terminal animations for leave */
